@@ -24,7 +24,8 @@ body {
   justify-content: center;
   cursor: pointer;
   border-radius: 50%;
-  background: #ffffff;
+  /* background: #ffffff; */
+  background: transparent;
   transition: all 0.2s ease;
 }
 
