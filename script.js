@@ -22,13 +22,14 @@ const chatHistory = [];
 const initialInputHeight = messageInput.scrollHeight;
 
 const speak = (text) => {
-  const utterance = new SpeechSynthesisUtterance(text);
-  // Đặt ngôn ngữ dựa trên nội dung
-  utterance.lang = 'vi-VN'; // Mặc định tiếng Việt
-  utterance.volume = 1; // Âm lượng (0 đến 1)
-  utterance.rate = 1; // Tốc độ nói (0.1 đến 10)
-  utterance.pitch = 1; // Cao độ (0 đến 2)
-  window.speechSynthesis.speak(utterance);
+  if (window.responsiveVoice && responsiveVoice.voiceSupport()) {
+    responsiveVoice.speak(text, "Vietnamese Female");
+  } else {
+    console.warn("ResponsiveVoice không khả dụng. Dùng fallback.");
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'vi-VN';
+    window.speechSynthesis.speak(utterance);
+  }
 };
 // Thêm cache cho kết quả AI
 const responseCache = {};
@@ -115,9 +116,9 @@ if (book.location) {
 if (book.quantity !== undefined) {
   resultText += `• 📦 Số lượng còn: ${book.quantity} cuốn\n`;
 }
-if (book.description) {
-  resultText += `• 📝 Mô tả: ${book.description}\n`;
-}
+// if (book.description) {
+//   resultText += `• 📝 Mô tả: ${book.description}\n`;
+// }
 resultText += `\n`;
     });
     return resultText;
